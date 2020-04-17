@@ -1,5 +1,6 @@
 import React, { useState, useContext} from 'react'
 import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
 
 import { AuthContext } from '../App'
 
@@ -9,8 +10,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
-import Axios from 'axios';
+
 
 const useStyles = makeStyles((theme) =>
 	createStyles({
@@ -33,6 +36,8 @@ const NavBar = () => {
 
 	const [authInfo, setAuthInfo] = useContext(AuthContext);
 
+	const [anchorEl, setAnchorEl] = React.useState(null);
+
 	const handleSignInLink = () => history.push('/sign_in');
 
 	const handleSignOutLink = () => {
@@ -50,13 +55,37 @@ const NavBar = () => {
 		}
 	}
 
+	const handleOpen = (event) => {
+		setAnchorEl(event.currentTarget);
+	}
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+	const handleHomeLink = () => {
+		setAnchorEl(null);
+		history.push('/');
+	};
+
 	return(
 		<div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
+			<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleOpen}>
+            	<MenuIcon />
+			</IconButton>
+			<Menu
+				id="simple-menu"
+				anchorEl={anchorEl}
+				keepMounted
+				open={Boolean(anchorEl)}
+				onClose={handleClose}
+			>
+						<MenuItem onClick={handleHomeLink}>ホーム</MenuItem>
+				<MenuItem onClick={handleClose}>このアプリについて</MenuItem>
+				<MenuItem onClick={handleClose}>いままで選んだ仲間たち</MenuItem>
+			</Menu>
           <Typography variant="h6" className={classes.title}>
 						シンオウポケモンPicker
           </Typography>

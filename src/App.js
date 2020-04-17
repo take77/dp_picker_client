@@ -5,16 +5,21 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import Axios from 'axios';
 
 import Home from './pages/Home'
 import Result from './pages/Result'
 import SignIn from './pages/SignIn';
-import SignUp from "./pages/SignUp";
+import SignUp from './pages/SignUp';
+import PickedHistory from './pages/PickedHistory';
+import Party from './pages/Party';
+
+import GuestRoute from './components/GuestRoute'
+import PrivateRoute from './components/PrivateRoute';
 
 import NavBar from './components/NavBar'
-
 import Container from '@material-ui/core/Container';
-import Axios from 'axios';
+
 
 export const AuthContext = React.createContext()
 
@@ -53,8 +58,10 @@ const App = () => {
             <Switch>
               <Route exact path="/" component={ Home } />
               <Route path={"/result"} component={Result} />
-              <Route path={"/sign_in"} component={SignIn} />
+              <GuestRoute path={"/sign_in"} component={SignIn} />
               <Route path={"/sign_up"} component={SignUp} />
+              <PrivateRoute path={"/history"} component={PickedHistory} />
+              <PrivateRoute path={"/Party"} component={Party} />
             </Switch>
           </Container>
         </Router>

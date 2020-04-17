@@ -1,6 +1,6 @@
 import React, { useState, useContext} from 'react'
 import { useHistory } from 'react-router-dom';
-import Axios from 'axios';
+import axios from 'axios';
 
 import { AuthContext } from '../App'
 
@@ -42,7 +42,7 @@ const NavBar = () => {
 
 	const handleSignOutLink = () => {
 		try {
-			Axios.delete('http://localhost:4567/sign_out', { withCredentials: true }).then((result) => {
+			axios.delete('http://localhost:4567/sign_out', { withCredentials: true }).then((result) => {
 				setAuthInfo({
 					loggedInStatus: "NOT_LOGGED_IN",
 					isLoggedIn: result.data.logged_in,
@@ -68,6 +68,23 @@ const NavBar = () => {
 		history.push('/');
 	};
 
+	const handleHistoryLink = () => {
+		setAnchorEl(null);
+
+		const params = {
+			playerId: authInfo.player.id
+		};
+
+		try {
+			axios.get('http://localhost:4567/logs', { params: params }).then((result) => history.push({
+				pathname: '/history',
+				state: { logs: result.data }
+			}));
+		} catch (error) {
+			console.error(error);
+		};
+	};
+
 	return(
 		<div className={classes.root}>
       <AppBar position="static">
@@ -82,9 +99,9 @@ const NavBar = () => {
 				open={Boolean(anchorEl)}
 				onClose={handleClose}
 			>
-						<MenuItem onClick={handleHomeLink}>ホーム</MenuItem>
+				<MenuItem onClick={handleHomeLink}>ホーム</MenuItem>
 				<MenuItem onClick={handleClose}>このアプリについて</MenuItem>
-				<MenuItem onClick={handleClose}>いままで選んだ仲間たち</MenuItem>
+						{authInfo.isLoggedIn == true && <MenuItem onClick={handleHistoryLink}>いままで選んだ仲間たち</MenuItem> }
 			</Menu>
           <Typography variant="h6" className={classes.title}>
 						シンオウポケモンPicker

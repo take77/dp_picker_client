@@ -8,7 +8,6 @@ import { Paper } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		height: 240,
-		width: 180,
 	  },
   }));
 
@@ -27,8 +26,8 @@ const PickedPokemonList = () => {
 		<Grid item xs={12}>
         	<Grid container justify="center" spacing={3}>
           		{state.party.map((pokemon) => (
-            		<Grid item key={pokemon.id}>
-              			<Paper className={classes.paper}>
+						<Grid item xs={12} sm={6} key={pokemon.id}>
+							<Paper className={classes.paper} elevation={3}>
 							{pokemon.name}
 						  </Paper>
             		</Grid>

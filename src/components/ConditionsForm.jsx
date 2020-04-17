@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from "axios";
 import { useHistory } from 'react-router-dom';
+
+import { AuthContext } from '../App'
 
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 
 const ConditionsForm = () => {
-	const [state, setState] = useState(
+	const [authInfo, setAuthInfo] = useContext(AuthContext);
+
+	const [conditionState, setConditionState] = useState(
 		{
 			base: false,
 			legend: false,
@@ -18,18 +23,31 @@ const ConditionsForm = () => {
 			useWeight: false,
 		});
 
+	const [titleState, setTitleState] = useState(
+		{
+			title: ''
+		})
+
 	let history = useHistory();
 
-	const handleChange = (event) => {
-		setState({...state, [event.target.name]: event.target.checked});
+	const handleTitleChange = (event) => {
+		// FixMe: this cord isn't correct
+		setTitleState({ ...titleState, [event.target.name]: event.target.value });
+	};
+
+	const handleConditionChange = (event) => {
+		setConditionState({ ...conditionState, [event.target.name]: event.target.checked });
 	};
 
 	const handleSubmit = () => {
 		const params = {
-			base: state.base,
-			legend: state.legend,
-			onlyDp: state.onlyDp,
-			useWeight: state.useWeight
+			base: conditionState.base,
+			legend: conditionState.legend,
+			onlyDp: conditionState.onlyDp,
+			useWeight: conditionState.useWeight,
+			partyTitle: titleState.title,
+			// FixMe: this params might not need
+			playerId: authInfo.player.id
 		};
 
 		try {
@@ -47,22 +65,23 @@ const ConditionsForm = () => {
 			<FormControl component="fieldset">
       			<FormLabel component="legend">自分好みの条件を設定しよう</FormLabel>
 				<form>
-     			<FormGroup>
+					<FormGroup>
+						{authInfo.isLoggedIn == true && <TextField id="standard-basic" label="パーティー名" name="title" onChange={handleTitleChange} />}
         			<FormControlLabel
-          			control={<Switch checked={state.base} onChange={handleChange} name="base" />}
+							control={<Switch checked={conditionState.base} onChange={handleConditionChange} name="base" />}
           			label="進化前のポケモンだけを選ぶ"
         			/>
         			<FormControlLabel
-          			control={<Switch checked={state.legend} onChange={handleChange} name="legend" />}
+							control={<Switch checked={conditionState.legend} onChange={handleConditionChange} name="legend" />}
           			label="伝説のポケモンも加える"
         			/>
         			<FormControlLabel
-          			control={<Switch checked={state.onlyDp} onChange={handleChange} name="onlyDp" />}
+							control={<Switch checked={conditionState.onlyDp} onChange={handleConditionChange} name="onlyDp" />}
           			label="シンオウ地方のポケモンだけを選ぶ"
         			/>
-					{state.onlyDp === false &&
+						{conditionState.onlyDp === false &&
 						<FormControlLabel
-						control={<Switch checked={state.useWeight} onChange={handleChange} name="useWeight" />}
+							control={<Switch checked={conditionState.useWeight} onChange={handleConditionChange} name="useWeight" />}
 						label="シンオウ地方のポケモンを出やすくする"
 					  />
 					}

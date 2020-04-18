@@ -21,6 +21,7 @@ const ConditionsForm = () => {
 			legend: false,
 			onlyDp: false,
 			useWeight: false,
+			pickedExcept: false,
 		});
 
 	const [titleState, setTitleState] = useState(
@@ -45,6 +46,7 @@ const ConditionsForm = () => {
 			legend: conditionState.legend,
 			onlyDp: conditionState.onlyDp,
 			useWeight: conditionState.useWeight,
+			pickedExcept: conditionState.pickedExcept,
 			partyTitle: titleState.title,
 			// FixMe: this params might not need
 			playerId: authInfo.player.id
@@ -79,11 +81,17 @@ const ConditionsForm = () => {
 							control={<Switch checked={conditionState.onlyDp} onChange={handleConditionChange} name="onlyDp" />}
           			label="シンオウ地方のポケモンだけを選ぶ"
         			/>
-						{conditionState.onlyDp === false &&
+					{conditionState.onlyDp === false &&
 						<FormControlLabel
 							control={<Switch checked={conditionState.useWeight} onChange={handleConditionChange} name="useWeight" />}
 						label="シンオウ地方のポケモンを出やすくする"
 					  />
+					}
+					{authInfo.isLoggedIn == true &&
+						<FormControlLabel
+							control={<Switch checked={conditionState.pickedExcept} onChange={handleConditionChange} name="pickedExcept" />}
+							label="今まで選んだ仲間を外す"
+						/>
 					}
       			</FormGroup>
 				<Button variant="contained" color="primary" onClick={handleSubmit}>仲間たちをPick!</Button>

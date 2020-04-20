@@ -17,7 +17,7 @@ const Party = () => {
 
     return (
         <Grid container justify="center">
-            <h2>{state.log.title}</h2>
+            <h1>{state.log.title}</h1>
             <PickedPokemonList />
         </Grid>
     )

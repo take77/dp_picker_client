@@ -7,12 +7,14 @@ import { AuthContext } from '../App'
 
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Paper } from "@material-ui/core";
-import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';import Button from '@material-ui/core/Button';
 
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
+    root: {
         height: 60
     },
 }));
@@ -61,16 +63,20 @@ const PartyList = () => {
         };
     }
 
-    console.log(state)
-
     return (
         <Grid item xs={12}>
             {state.logs.map((log) => (
                 <Grid container alignItems="center" justify="center" key={log.id} spacing={3}>
                     <Grid item xs={9}>
-                        <Paper className={classes.paper} elevation={3} onClick={handlePartyLink} data-index={log.id}>
-                        {log.title}
-                        </Paper>
+                        <Card className={classes.root} onClick={handlePartyLink} data-index={log.id}>
+                            <CardActionArea>
+                                <CardContent>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        {log.title}
+                                    </Typography>
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
                     </Grid>
                     <Grid item xs={3}>
                         <Button variant="outlined" color="secondary" onClick={handlePartyDeleteLink} data-index={log.id}>

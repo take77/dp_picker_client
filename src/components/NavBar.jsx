@@ -68,6 +68,11 @@ const NavBar = () => {
 		history.push('/');
 	};
 
+	const handleAboutLink = () => {
+		setAnchorEl(null);
+		history.push('/about');
+	}
+
 	const handleHistoryLink = () => {
 		setAnchorEl(null);
 
@@ -100,7 +105,7 @@ const NavBar = () => {
 				onClose={handleClose}
 			>
 				<MenuItem onClick={handleHomeLink}>ホーム</MenuItem>
-				<MenuItem onClick={handleClose}>このアプリについて</MenuItem>
+						<MenuItem onClick={handleAboutLink}>このアプリについて</MenuItem>
 						{authInfo.isLoggedIn == true && <MenuItem onClick={handleHistoryLink}>いままで選んだ仲間たち</MenuItem> }
 			</Menu>
           <Typography variant="h6" className={classes.title}>

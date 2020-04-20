@@ -69,12 +69,20 @@ export default function SignIn() {
         params.append('password', state.password);
         try {
             axios.post('http://localhost:4567/sign_in', params, { withCredentials: true }).then((result) => {
-                setAuthInfo({
-                    loggedInStatus: "LOGGED_IN",
-                    isLoggedIn: result.data.logged_in,
-                    player: result.data.player
-                });
-                history.push('/')
+                if(result.data.logged_in) {
+                    setAuthInfo({
+                        loggedInStatus: "LOGGED_IN",
+                        isLoggedIn: result.data.logged_in,
+                        player: result.data.player
+                    });
+                    history.push('/')
+                } else {
+                    setAuthInfo({
+                        loggedInStatus: "NOT_LOGGED_IN",
+                        isLoggedIn: result.data.logged_in,
+                        player: {}
+                    });
+                }
             });
         } catch (error) {
             console.error(error);

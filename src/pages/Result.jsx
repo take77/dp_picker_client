@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 const Result = () => {
 	return(
 		<Grid container justify="center">
-			<h2>今回一緒に旅するメンバーはこちら！</h2>
+			<h1>今回一緒に旅するメンバーはこちら！</h1>
 			<PickedPokemonList />
 		</Grid>
 	)

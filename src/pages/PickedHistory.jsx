@@ -11,7 +11,7 @@ const PickedHistory = () => {
 
     return (
         <Grid container justify="center">
-            <h2>{authInfo.player.nickname} の仲間たち</h2>
+            <h1>{authInfo.player.nickname} の仲間たち</h1>
             <PartyList />
         </Grid>
     )

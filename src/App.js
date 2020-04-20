@@ -13,6 +13,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import PickedHistory from './pages/PickedHistory';
 import Party from './pages/Party';
+import About from './pages/About';
 
 import GuestRoute from './components/GuestRoute'
 import PrivateRoute from './components/PrivateRoute';
@@ -48,18 +49,19 @@ const App = () => {
     })
   }, [])
 
+
   return (
     <div className="App">
       <AuthContext.Provider value={[authInfo, setAuthInfo]}>
         <Router>
           <NavBar />
-          <h1>{ authInfo.loggedInStatus }</h1>
           <Container maxWidth="sm">
             <Switch>
               <Route exact path="/" component={ Home } />
               <Route path={"/result"} component={Result} />
               <GuestRoute path={"/sign_in"} component={SignIn} />
               <Route path={"/sign_up"} component={SignUp} />
+              <Route path={"/about"} component={About} />
               <PrivateRoute path={"/history"} component={PickedHistory} />
               <PrivateRoute path={"/Party"} component={Party} />
             </Switch>
